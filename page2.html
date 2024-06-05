@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Mapa</title>
+    <style>
+        body,html {
+            margin: 0;
+            padding: 0;
+            
+            font-family: sans-serif;
+        }
+
+        .container {
+            width: 350px;
+            height: 1200px;
+            background-color: #0D0B46;
+            margin: 50px auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            padding: 20px;
+            background-color: #0D0B46;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .header input {
+            width: calc(100% - 70px);
+            padding: 10px;
+            border: 1px solid #b673e2;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .header button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .body {
+            padding: 20px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .option:last-child {
+            border-bottom: none;
+        }
+
+        .icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+        }
+
+        .text {
+            font-size: 16px;
+            color: white;
+        }
+
+        .favorites {
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .favorite {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .favorite:last-child {
+            border-bottom: none;
+        }
+
+        .favorite-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+        }
+
+        .favorite-text {
+            font-size: 16px;
+            flex-grow: 1;
+        }
+
+        .favorite-star {
+            color: #ffc107;
+            font-size: 18px;
+        }
+
+        .recent {
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .recent-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .recent-item:last-child {
+            border-bottom: none;
+        }
+
+        .recent-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+        }
+
+        .recent-text {
+            font-size: 16px;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <input type="text" placeholder="Pra onde você quer ir?">
+            <button>Buscar</button>
+        </div>
+        <div class="body">
+            <div class="option" onclick="getLocation()">
+                <img width="32" height="32" src="https://img.icons8.com/skeuomorphism/32/location.png" alt="location"/>
+                <div class="text"> Sua Localização atual</div>
+            </div>
+            <div class="option" onclick="selectManually()">
+                <img src="https://img.icons8.com/color/48/000000/map.png" class="icon">
+                <div class="text">Selecionar manual</div>
+            </div>
+            <div class="favorites">
+                <h3>FAVORITOS</h3>
+                <div class="favorite">
+                    <img src="https://img.icons8.com/color/48/000000/graduation-cap.png" class="favorite-icon">
+                    <div class="favorite-text">UNIPÊ</div>
+                    <span class="favorite-star">&#9733;</span>
+                    <div class="favorite-text">Rua José Paulo da silva Lira - João Pessoa - PB</div>
+                </div>
+                <div class="favorite">
+                    <img src="https://img.icons8.com/color/48/000000/home.png" class="favorite-icon">
+                    <div class="favorite-text">CASA</div>
+                    <span class="favorite-star">&#9733;</span>
+                    <div class="favorite-text">Av. Professor Renato Carneiro da Cunha - João Pessoa - PB</div>
+                </div>
+            </div>
+            <div class="recent">
+                <h3>RECENTE</h3>
+                <div class="recent-item">
+                    <img src="https://img.icons8.com/color/48/000000/building.png" class="recent-icon">
+                    <div class="recent-text">TERMINAL RODOVIÁRIO</div>
+                    <div class="recent-text">Terminal Rodoviário - Rua Francisco Londes s/n - Varadouro - João Pessoa - PB</div>
+                </div>
+                <div class="recent-item">
+                    <img src="https://img.icons8.com/color/48/000000/building.png" class="recent-icon">
+                    <div class="recent-text">TERMINAL RODOVIÁRIO</div>
+                    <div class="recent-text">Terminal Rodoviário - Rua Francisco Londes s/n - Varadouro - João Pessoa - PB</div>
+                </div>
+                <div class="recent-item">
+                    <img src="https://img.icons8.com/color/48/000000/building.png" class="recent-icon">
+                    <div class="recent-text">TERMINAL RODOVIÁRIO</div>
+                    <div class="recent-text">Terminal Rodoviário - Rua Francisco Londes s/n - Varadouro - João Pessoa - PB</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            alert("Latitude: " + position.coords.latitude + 
+            "\nLongitude: " + position.coords.longitude);
+        }
+
+        function selectManually() {
+            alert("Selecionar manualmente.");
+        }
+    </script>
+</body>
+</html>

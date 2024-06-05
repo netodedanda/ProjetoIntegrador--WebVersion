@@ -1,0 +1,47 @@
+body{
+    background-color: black;
+    color: white;
+    padding: 0;
+    margin: 0;
+    background-image: url(./img/Rectangle\ 23\ \(1\).png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+.search-container {
+    text-align: center; /* Centraliza o conteúdo do contêiner */
+}
+
+.centered-input {
+    width: 50%; /* Defina a largura do input como desejar */
+    padding: 10px; /* Espaçamento interno */
+    box-sizing: border-box; /* Isso incluirá preenchimento e bordas na largura total */
+}
+
+.search-icon {
+    display: inline-block; /* Para que o ícone se comporte como um elemento de bloco, permitindo alinhamento vertical */
+    vertical-align: middle; /* Centraliza verticalmente com o input */
+    cursor: pointer;
+    font-size: 1.2em; /* Tamanho do ícone */
+}
+
+
+@media screen and ( max-width: 768px) {
+
+    .header{
+        display: block;
+        height: 100vw;
+        
+    }
+    .logo{
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+       padding:  15px;
+    }
+
+}
+    
+
