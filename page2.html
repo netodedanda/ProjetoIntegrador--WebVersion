@@ -3,144 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="page2.css">
     <title>Mapa</title>
-    <style>
-        body,html {
-            margin: 0;
-            padding: 0;
-            
-            font-family: sans-serif;
-        }
-
-        .container {
-            width: 350px;
-            height: 1200px;
-            background-color: #0D0B46;
-            margin: 50px auto;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .header {
-            padding: 20px;
-            background-color: #0D0B46;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-        .header input {
-            width: calc(100% - 70px);
-            padding: 10px;
-            border: 1px solid #b673e2;
-            border-radius: 5px;
-            font-size: 16px;
-            margin-right: 10px;
-        }
-
-        .header button {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .body {
-            padding: 20px;
-        }
-
-        .option {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid #ccc;
-            cursor: pointer;
-        }
-
-        .option:last-child {
-            border-bottom: none;
-        }
-
-        .icon {
-            width: 30px;
-            height: 30px;
-            margin-right: 15px;
-        }
-
-        .text {
-            font-size: 16px;
-            color: white;
-        }
-
-        .favorites {
-            padding: 20px;
-            background-color: #f0f0f0;
-        }
-
-        .favorite {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid #ccc;
-            cursor: pointer;
-        }
-
-        .favorite:last-child {
-            border-bottom: none;
-        }
-
-        .favorite-icon {
-            width: 30px;
-            height: 30px;
-            margin-right: 15px;
-        }
-
-        .favorite-text {
-            font-size: 16px;
-            flex-grow: 1;
-        }
-
-        .favorite-star {
-            color: #ffc107;
-            font-size: 18px;
-        }
-
-        .recent {
-            padding: 20px;
-            background-color: #f0f0f0;
-        }
-
-        .recent-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid #ccc;
-            cursor: pointer;
-        }
-
-        .recent-item:last-child {
-            border-bottom: none;
-        }
-
-        .recent-icon {
-            width: 30px;
-            height: 30px;
-            margin-right: 15px;
-        }
-
-        .recent-text {
-            font-size: 16px;
-            flex-grow: 1;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <input type="text" placeholder="Pra onde você quer ir?">
-            <button>Buscar</button>
+            <input id="destination-input" type="text" placeholder="Pra onde você quer ir?" class="local">
+            <input id="destination-input" type="text" placeholder="Localização atual" class="longe">
+            <button onclick="buscarEExibirMapa()">Buscar</button>
         </div>
         <div class="body">
             <div class="option" onclick="getLocation()">
@@ -187,6 +58,14 @@
         </div>
     </div>
     <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const destinationInput = document.getElementById('destination-input');
+            const savedText = localStorage.getItem('searchText');
+            if (savedText) {
+                destinationInput.value = savedText;
+            }
+        });
+
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition);
@@ -196,12 +75,37 @@
         }
 
         function showPosition(position) {
-            alert("Latitude: " + position.coords.latitude + 
-            "\nLongitude: " + position.coords.longitude);
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Chamada para a API de geocodificação reversa do OpenStreetMap
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.display_name) {
+                        const address = data.display_name;
+                        const locationInput = document.querySelector('.longe');
+                        locationInput.value = address;
+                    } else {
+                        alert('Endereço não encontrado.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao recuperar o endereço:', error);
+                    alert('Erro ao recuperar o endereço.');
+                });
         }
 
         function selectManually() {
             alert("Selecionar manualmente.");
+        }
+
+        function buscarEExibirMapa() {
+            const palavra = document.querySelector('.local').value;
+            const rua = document.querySelector('.longe').value;
+
+            // Fazer uma requisição GET para o servidor com os dados
+            window.location.href = `https://www.openstreetmap.org/#map=4/-15.11/-53.17?palavra=${encodeURIComponent(palavra)}&rua=${encodeURIComponent(rua)}`;
         }
     </script>
 </body>

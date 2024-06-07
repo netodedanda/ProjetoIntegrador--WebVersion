@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        function initMap() {
+            const params = new URLSearchParams(window.location.search);
+            const address = decodeURIComponent(params.get('address'));
+            
+            const map = L.map('map').setView([-23.5505, -46.6333], 12);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            const marker = L.marker([-23.5505, -46.6333]).addTo(map)
+                .bindPopup(`<b>Endereço:</b> ${address}`).openPopup();
+        }
+        initMap();
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="./styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>ONbus</title>
+</head>
+<body>
+    <section class="header">
+        <img src="./img/logo.png" alt="Logo" class="logo">
+    </section><!-- FIM DA SECTION HEADER-->
+
+    <div class="search-container">
+        <input id="search-input" type="text" placeholder="Para onde iremos ?" class="centered-input">
+        <ul id="suggestions-list" class="suggestions-list"></ul>
+        <a id="search-button" href="page2.html"><i class="fa fa-search"></i></a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search-input');
+            const suggestionsList = document.getElementById('suggestions-list');
+
+            // Lista de palavras para sugestões
+            const words = [
+                "Praia de Cabedelo",
+                "Parque do sol",
+                "Shopping Manaira",
+                "Restaurante",
+                "Hotel ",
+                "Universidade Unipe" ,
+                "Hospital Central",
+                "Estação Ciência ",
+                "Terminal de varadouro " ,
+                "Biblioteca Pública",
+                "Museu de Dom pedro"
+            ];
+
+            // Função para filtrar e exibir as sugestões
+            function showSuggestions(input) {
+                // Limpar lista de sugestões anterior
+                suggestionsList.innerHTML = '';
+                if (input.length === 0) {
+                    return;
+                }
+
+                // Filtrar palavras que começam com o texto digitado
+                const filteredWords = words.filter(word => word.toLowerCase().startsWith(input.toLowerCase()));
+
+                // Mostrar as sugestões filtradas
+                filteredWords.forEach(word => {
+                    const li = document.createElement('li');
+                    li.textContent = word;
+                    li.addEventListener('click', () => {
+                        searchInput.value = word;
+                        suggestionsList.innerHTML = '';
+                    });
+                    suggestionsList.appendChild(li);
+                });
+            }
+
+            // Evento de entrada no campo de texto para mostrar sugestões
+            searchInput.addEventListener('input', () => {
+                showSuggestions(searchInput.value);
+            });
+
+            document.getElementById('search-button').addEventListener('click', function() {
+                const searchInputValue = searchInput.value;
+                localStorage.setItem('searchText', searchInputValue);
+            });
+        });
+    </script>
+</body>
+</html>

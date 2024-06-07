@@ -1,29 +1,28 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./login.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONbus</title>
+    <title>Document</title>
 </head>
 <body>
-    <section class="header">
-    <img src="./img/logo.png" alt="" class="logo">
-    </section><!-- FIM DA SECTION HEADER-->
-
-    <div class="search-container">
-        <a href="page2.html"> <input type="text" placeholder="Digite algo" class="centered-input">
-        <span class="search-icon">&#128269;</span></a>
+    <div class="container">
+        <form class="form">
+            <div class="image-container">
+                <img src="./img/logo.png" alt="Logo">
+                <h2>FAÇA LOGIN PARA UTILIZAR <br> TODOS OS RECURSOS DO <br> ONBUS</h2>
+            </div>
+            <div class="form-group">
+                <label for="username">Email:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <a href="page1.html" class="button">Submit</a>
+        </form>
     </div>
-
-    <!-- <script>
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-          // Se o usuário estiver em um dispositivo móvel, não faz nada
-        } else {
-          // Se o usuário estiver em um desktop, redireciona para uma página de erro
-          window.location.href = "pagina_de_erro.html";
-        }
-      </script>
-    -->
 </body>
 </html>
